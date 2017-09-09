@@ -55,6 +55,19 @@ end
 # the package that lets you easily define new services
 package "daemon"
 
+directory '/var/log/aptly' do
+  owner 'root'
+  group 'root'
+  mode '0755'
+  action :create
+end
+
+bash 'create_aptly_log' do
+  code <<-EOH
+    touch /var/log/aptly/aptly.log
+  EOH
+end
+
 cookbook_file '/etc/init.d/aptly-daemon' do
   source 'aptly-daemon'
   owner 'root'
